@@ -8,7 +8,7 @@
 
 #import "BDMapViewController.h"
 
-@interface BDMapViewController () <BMKMapViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKRadarManagerDelegate>
+@interface BDMapViewController () <BMKMapViewDelegate, BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKRadarManagerDelegate, BDMapToolBarDelegate>
 
 //地图图层
 @property (strong, nonatomic) BMKMapView *mapView;
@@ -131,35 +131,12 @@
 //    NSLog(@"%@",filePath);
 }
 - (void)initView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
-    view.backgroundColor = [UIColor colorWithRed:242/255.0 green:60/255.0 blue:60/255.0 alpha:1.0];
-    [self.view addSubview:view];
-    //currentSpeed
-    UILabel *currentSpeedLabel = [[UILabel alloc] initWithFrame:CGRectMake(WIDTH - 120, 0, 100, 44)];
-    currentSpeedLabel.text = @" ";
-    currentSpeedLabel.textAlignment = NSTextAlignmentRight;
-    currentSpeedLabel.textColor = [UIColor whiteColor];
-    [view addSubview:currentSpeedLabel];
-    _currentSpeedLabel = currentSpeedLabel;
-    //定位按钮
-    UIButton *locationServiceButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 0, 54, 44)];
-    [locationServiceButton setTitle:@"开始" forState:UIControlStateNormal];
-    [locationServiceButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    locationServiceButton.titleLabel.font = [UIFont fontWithName:@"PingFang SC" size:17.0];
-    locationServiceButton.titleLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightLight];
-    [view addSubview:locationServiceButton];
-    [locationServiceButton addTarget:self action:@selector(startAndStopButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    _locationServiceButton = locationServiceButton;
-    //交通方式图标
-    UIImage *walk = [UIImage imageNamed:@"walk"];
-    UIImage *run = [UIImage imageNamed:@"run"];
-    UIImage *bike = [UIImage imageNamed:@"bike"];
-    UIImage *car = [UIImage imageNamed:@"car"];
-    UIImageView *tranTypeView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, walk.size.width, walk.size.height)];
-    tranTypeView.center = CGPointMake(WIDTH * 0.5, 22);
-    tranTypeView.image = walk;
-    [view addSubview:tranTypeView];
-    _tranTypeView = tranTypeView;
+    BDMapToolBar *toolBar = [[BDMapToolBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
+    [self.view addSubview:toolBar];
+    toolBar.delegate = self;
+    _currentSpeedLabel = toolBar.currentSpeedLabel;
+    _locationServiceButton = toolBar.locationServiceButton;
+    _tranTypeView = toolBar.tranTypeView;
     //实时路况按钮
     UIButton *tranStateButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 54, HEIGHT - 190, 44, 44)];
     [tranStateButton setImage:[UIImage imageNamed:@"road"] forState:UIControlStateNormal];
@@ -170,6 +147,9 @@
     [radarButton setImage:[UIImage imageNamed:@"radar"] forState:UIControlStateNormal];
     [radarButton addTarget:self action:@selector(radarButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:radarButton];
+}
+- (void)startAndStopButtonDidClick:(BDMapToolBar *)toolBar {
+    [self startAndStopButtonClick];
 }
 
 - (void)moveToCurrentLocation {
@@ -248,14 +228,8 @@
     NSString *totalD = [NSString stringWithFormat:@"%.0f", totalDistance];
     NSString *totalT = [NSString stringWithFormat:@"%d", totalTime];
     NSString *averageS = [NSString stringWithFormat:@"%.1f", averageSpeed];
-    [self showTotalDistance:totalD totalTime:totalT averageSpeed:averageS];
-}
-/**弹出提示 总路程/总时间/平均速度*/
-- (void)showTotalDistance:(NSString *)distance totalTime:(NSString *)time averageSpeed:(NSString *)speed {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"行程" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"总路程为%@m 总时间为%@s 平均速度为%@m/s", distance, time, speed] style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
+    //弹出提示
+    [self presentViewController:[BDMapAlert showTotalDistance:totalD totalTime:totalT averageSpeed:averageS] animated:YES completion:nil];
 }
     
 /**插入数据并更新界面*/
@@ -345,12 +319,11 @@
         BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
         polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:1];
         polylineView.lineWidth = 5.0;
-        
         return polylineView;
     }
     return nil;
 }
-/**计算两点距离*/
+/**计算两点距离(经纬度)*/
 - (CLLocationDistance)calcutDistanceFromPointOneLatitude:(float)lat1 longitude:(float)lon1 toPointTwoLatitude:(float)lat2 longitude:(float)lon2 {
     BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat1,lon1));
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lat2,lon2));
@@ -437,22 +410,9 @@
             NSTimeInterval timeStamp = nearbyInfo.timeStamp;
             NSLog(@"检测到%ld个用户 用户名:%@ 距离:%lu 时间:%f", (long)totalNum, userId, (unsigned long)distance, timeStamp);
         }
-        [self showRaderTotalNum:totalNum];
+        //弹出提示检测到用户
+        [self presentViewController:[BDMapAlert showRaderTotalNum:totalNum] animated:YES completion:nil];
     }
-}
-/**弹出提示 雷达检测到用户*/
-- (void)showRaderAlert:(BMKRadarNearbyInfo *)nearbyInfo totalNum:(NSInteger)num{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"检测到%ld个用户 用户名:%@ 距离:%lu", num, nearbyInfo.userId, (unsigned long)nearbyInfo.distance] style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-/**弹出提示 雷达检测到用户*/
-- (void)showRaderTotalNum:(NSInteger)num{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Rader检测到%ld个用户", num] style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /**是否获得稳定规律定位数据*/
@@ -496,19 +456,13 @@
         NSString *city = addressDetail.city;
         if (_isShowAlert) {  //提醒一次
             if (![city isEqualToString:@"深圳市"]) {
-                [self showAlert:@"您已离开深圳市!"];
+                //弹出提示
+                [self presentViewController:[BDMapAlert showAlert:@"您已离开深圳市!"] animated:YES completion:nil];
                 _isShowAlert = NO;
             }
         }
         NSLog(@"省份:%@ 城市:%@ 地址:%@", addressDetail.province, addressDetail.city, address);
     }
-}
-/**弹出越境提醒*/
-- (void)showAlert:(NSString *)content {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提醒" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@", content] style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /**以加速度和速度判别运动状态*/

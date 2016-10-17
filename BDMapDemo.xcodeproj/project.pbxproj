@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA6B7D941DB4747F00D43906 /* BDMapToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6B7D931DB4747F00D43906 /* BDMapToolBar.m */; };
+		BA6B7D971DB479A900D43906 /* BDMapAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6B7D961DB479A900D43906 /* BDMapAlert.m */; };
 		BAAFE7F21DB1CB6E0097D47D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFE7F11DB1CB6E0097D47D /* main.m */; };
 		BAAFE7F51DB1CB6E0097D47D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFE7F41DB1CB6E0097D47D /* AppDelegate.m */; };
 		BAAFE7FB1DB1CB6E0097D47D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAAFE7F91DB1CB6E0097D47D /* Main.storyboard */; };
@@ -22,6 +24,10 @@
 		4C0C83FBACD33B8C08E9DC5B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F15D82A94FA62DD70A7B8DA /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		A3EA305B5135002B2560B3AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BA6B7D921DB4747F00D43906 /* BDMapToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDMapToolBar.h; sourceTree = "<group>"; };
+		BA6B7D931DB4747F00D43906 /* BDMapToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDMapToolBar.m; sourceTree = "<group>"; };
+		BA6B7D951DB479A900D43906 /* BDMapAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDMapAlert.h; sourceTree = "<group>"; };
+		BA6B7D961DB479A900D43906 /* BDMapAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDMapAlert.m; sourceTree = "<group>"; };
 		BA70AFF91DB297F800FD1998 /* Configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
 		BAAFE7ED1DB1CB6E0097D47D /* BDMapDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BDMapDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAAFE7F11DB1CB6E0097D47D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -59,6 +65,54 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		BA6B7D8D1DB472C700D43906 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				BA6B7D901DB473AA00D43906 /* Model */,
+				BA6B7D8F1DB473A400D43906 /* View */,
+				BA6B7D8E1DB4739A00D43906 /* Controller */,
+				BA6B7D911DB473C100D43906 /* Helper */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		BA6B7D8E1DB4739A00D43906 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BAAFE80C1DB213000097D47D /* BDMapViewController.h */,
+				BAAFE80D1DB213000097D47D /* BDMapViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		BA6B7D8F1DB473A400D43906 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BA6B7D921DB4747F00D43906 /* BDMapToolBar.h */,
+				BA6B7D931DB4747F00D43906 /* BDMapToolBar.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		BA6B7D901DB473AA00D43906 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BA6B7D911DB473C100D43906 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				BAAFE8091DB1F80E0097D47D /* BDMapConstant.h */,
+				BAAFE80A1DB1F80E0097D47D /* BDMapConstant.m */,
+				BA70AFF91DB297F800FD1998 /* Configuration.h */,
+				BA6B7D951DB479A900D43906 /* BDMapAlert.h */,
+				BA6B7D961DB479A900D43906 /* BDMapAlert.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		BAAFE7E41DB1CB6E0097D47D = {
 			isa = PBXGroup;
 			children = (
@@ -83,11 +137,7 @@
 			children = (
 				BAAFE7F31DB1CB6E0097D47D /* AppDelegate.h */,
 				BAAFE7F41DB1CB6E0097D47D /* AppDelegate.m */,
-				BAAFE8091DB1F80E0097D47D /* BDMapConstant.h */,
-				BAAFE80A1DB1F80E0097D47D /* BDMapConstant.m */,
-				BA70AFF91DB297F800FD1998 /* Configuration.h */,
-				BAAFE80C1DB213000097D47D /* BDMapViewController.h */,
-				BAAFE80D1DB213000097D47D /* BDMapViewController.m */,
+				BA6B7D8D1DB472C700D43906 /* Projects */,
 				BAAFE7F91DB1CB6E0097D47D /* Main.storyboard */,
 				BAAFE7FC1DB1CB6E0097D47D /* Assets.xcassets */,
 				BAAFE7F01DB1CB6E0097D47D /* Supporting Files */,
@@ -240,7 +290,9 @@
 				BAAFE80B1DB1F80E0097D47D /* BDMapConstant.m in Sources */,
 				BAAFE7F51DB1CB6E0097D47D /* AppDelegate.m in Sources */,
 				BAAFE7F21DB1CB6E0097D47D /* main.m in Sources */,
+				BA6B7D971DB479A900D43906 /* BDMapAlert.m in Sources */,
 				BAAFE80E1DB213000097D47D /* BDMapViewController.m in Sources */,
+				BA6B7D941DB4747F00D43906 /* BDMapToolBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

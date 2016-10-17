@@ -6,15 +6,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BDMapDemo/BDMapViewController.m"
-            timestampString = "498361220.136784"
+            timestampString = "498367683.541372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "-moveToCurrentLocation"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BDMapDemo/BDMapViewController.m"
-            timestampString = "498361220.136784"
+            timestampString = "498367683.541372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-stopLocationService"
             landmarkType = "7">
          </BreakpointContent>
