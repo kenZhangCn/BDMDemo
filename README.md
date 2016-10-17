@@ -1,2 +1,2 @@
 # BDMDemo
-A Demo Based on BDMap SDK
+A Demo Based on Baidu MapKit SDK
